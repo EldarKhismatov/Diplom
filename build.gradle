@@ -25,12 +25,13 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine'
-    testImplementation 'com.codeborne:selenide:6.7.4'
+    testImplementation 'com.codeborne:selenide:6.17.0'
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
     testImplementation 'io.qameta.allure:allure-selenide:2.19.0'
     testImplementation 'mysql:mysql-connector-java:8.0.30'
     testImplementation 'commons-dbutils:commons-dbutils:1.7'
     testImplementation 'org.postgresql:postgresql:42.5.0'
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.7'
 }
 
 test {
