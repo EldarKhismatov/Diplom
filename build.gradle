@@ -21,6 +21,7 @@ repositories {
 }
 
 dependencies {
+
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
     testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
@@ -39,6 +40,7 @@ dependencies {
     implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
     implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.18.1'
     implementation group: 'io.qameta.allure', name: 'allure-selenide', version: '2.18.1'
+    testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
 }
 
 test {
