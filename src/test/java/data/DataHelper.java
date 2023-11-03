@@ -1,8 +1,7 @@
 package data;
 
 import com.github.javafaker.Faker;
-import com.github.javafaker.service.FakeValuesService;
-import com.github.javafaker.service.RandomService;
+import lombok.Value;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,168 +9,133 @@ import java.util.Locale;
 
 
 public class DataHelper {
+    private static final Faker faker = new Faker(Locale.ENGLISH);
+    private static final Faker fakerWithCyrillicLocale = new Faker(new Locale("ru", "RU"));
 
-    //Генерация для поля "Номер карты"
-    public static String getValidActiveCard(){
-        return "4444 4444 4444 4441";
-    }
-    public static String getValidDeclinedCard(){
-        return "4444 4444 4444 4442";
-    }
-    public static String getZeroNumberCard(){
-        return "0000 0000 0000 0000";
-    }
-    public static String getEmptyNumberCard(){
-        return "";
+    @Value
+    public static class CardData {
+        private final String number;
+        private final String month;
+        private final String year;
+        private final String holder;
+        private final String cvc;
     }
 
-    public static String getInvalidNumberCard(){
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
-        return fakeValuesService.numerify("#### #### ##### ####");
-    }
-    public static String getInvalidPatternNumberCard(){
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
-        return fakeValuesService.numerify("#### #### ##### ##");
-    }
-    public static String getRuSymbolNumberCard(){
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("ru"), new RandomService());
-        return fakeValuesService.numerify("йцук енгш щзфы вапр");
-    }
-    public static String getEngSymbolNumberCard(){
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
-        return fakeValuesService.numerify("qwer tyui opas dfgh");
-    }
-    public static String getMaxSymbolNumberCard(){
-        return "1234 5678 9123 4567 8947";
+
+    public static CardData getValidApprovedCard() {
+        return new CardData(getNumberByStatus("approved"), generateMonth(1), generateYear(2),
+                generateValidHolder(), generateValidCVC());
     }
 
-    // Генерация для поля "Месяц"
-    public static String getCurrentMonth(){
-        return LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
+    public static CardData getValidDeclinedCard() {
+        return new CardData(getNumberByStatus("declined"), generateMonth(1), generateYear(2),
+                generateValidHolder(), generateValidCVC());
     }
-    public static String getPreviousMonth(){
-        int currentMonth = LocalDate.now().getMonthValue();
-        if (currentMonth == 1){
-            return getLastMonth();
-        } else {
-            return LocalDate.now().minusMonths(2).format(DateTimeFormatter.ofPattern("MM"));
+
+    public static String getNumberWithoutSpacebarByStatus(String status) {
+        if (status.equalsIgnoreCase("APPROVED")) {
+            return "4444444444444441";
+        } else if (status.equalsIgnoreCase("DECLINED")) {
+            return "4444444444444442";
         }
-    }
-    public static String getLastMonth(){
-        int plusMonth = LocalDate.now().getMonthValue();
-        return LocalDate.now().plusMonths(12 - plusMonth).format(DateTimeFormatter.ofPattern("MM"));
-    }
-    public static  String getZeroMonth(){
-        return "00";
-    }
-    public static String getInvalidMonth(){
-        return "13";
-    }
-    public static String getEmptyMonth(){
-        return "";
-    }
-    public static String getSymbolMonth(){ return "!@";}
-
-    // Генерация для поля "Год"
-    public static String getCurrentYear(){
-        return LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
-    }
-    public static String getPreviousYear(){
-        return LocalDate.now().minusYears(1).format(DateTimeFormatter.ofPattern("yy"));
-    }
-    public static String getNextYear(){
-        return LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("yy"));
-    }
-    public static String getSymbolYear(){ return "!@";}
-    public static String getZeroYear(){
-        return "00";
-    }
-    public static String getEmptyYear(){
-        return "";
+        return null;
     }
 
-    //Генерация для поля "Владелец"
-    public static String getValidOwner(){
-        Faker faker = new Faker(new Locale("en"));
-        return faker.name().firstName() + " " + faker.name().lastName();
-    }
-    public static String getValid35SymbolCard(){
-        String firstNameRussian = "Ivanivanivanivanivanivanivanivaniva";
-        String lastNameEnglish = "Ivanivanivanivanivanivanivanivaniva";
-        return firstNameRussian + " " + lastNameEnglish;
-    }
-    public static String getValid2SymbolCard(){
-        String firstNameRussian = "IV";
-        String lastNameEnglish = "Iv";
-        return firstNameRussian + " " + lastNameEnglish;
-    }
-    public static String getValidSymbolCard(){
-        String firstNameRussian = "Ivan-Alex";
-        String lastNameEnglish = "Ivanov";
-        return firstNameRussian + " " + lastNameEnglish;
-    }
-    public static String getInvalidLocalOwner(){
-        Faker faker = new Faker(new Locale("ru"));
-        return faker.name().firstName() + " " + faker.name().lastName();
-    }
-    public static String getInvalidOwner(){
-        Faker faker = new Faker(new Locale("en"));
-        return faker.name().firstName();
-    }
-    public static String getNamesFirstRu() {
-        String firstNameRussian = "Иван";
-        String lastNameEnglish = "Ivanov";
-        return firstNameRussian + " " + lastNameEnglish;
-    }
-    public static String getNamesLastRu() {
-        String firstNameEnglish = "Ivan";
-        String lastNameRussian = "Иванов";
-        return firstNameEnglish + " " + lastNameRussian;
-    }
-    public static String getInvalidNameOwner(){
-        Faker faker = new Faker(new Locale("ru"), new RandomService());
-        return faker.name().firstName() + 45 + " " + faker.name().lastName() + 45;
-    }
-    public static String getInValidOwner(){
-        Faker faker = new Faker(new Locale("en"));
-        return faker.name().firstName() + " " + "al" + " " + faker.name().lastName();
-    }
-    public static String getInvalidSymbolOwner(){
-        String firstNameRussian = "!@#$";
-        String lastNameEnglish = "!@#$";
-        return firstNameRussian + " " + lastNameEnglish;
-    }
-    public static String getEmptyOwner(){
-        return "";
+    public static String getNumberByStatus(String status) {
+        if (status.equalsIgnoreCase("APPROVED")) {
+            return "4444 4444 4444 4441";
+        } else if (status.equalsIgnoreCase("DECLINED")) {
+            return "4444 4444 4444 4442";
+        }
+        return null;
     }
 
-    // Генерация для поля "CVC/CWW"
-    public static String getValidCVC(){
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
-        return fakeValuesService.numerify("###");
+    public static String generateValidCardNumberWithEnSymbol() {
+        return faker.numerify("qwer tyui asdf ghjk");
     }
-    public static String getRuValidCVC(){
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("ru"), new RandomService());
-        return fakeValuesService.numerify("ицу");
+
+    public static String generateValidCardNumberWith13Digits() {
+        return faker.numerify("4444 44## #### #");
     }
-    public static String getEngInValidCVC(){
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
-        return fakeValuesService.numerify("qwe");
+
+    public static String generateValidCardNumberWith18Digits() {
+        return faker.numerify("4444 44## #### #### ##");
     }
-    public static String getZeroCVC(){
-        return "000";
+
+    public static String generateValidCardNumberWith0Digits() {
+        return faker.numerify("0000 0000 0000 0000");
     }
-    public static String getInvalidCVC(){
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
-        return fakeValuesService.numerify("##");
+
+    public static String generateInvalidCardNumberRuSymbol() {
+        return faker.numerify("йцук енгш щзхъ фыва ");
     }
-    public static String getMaxInvalidCVC(){
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
-        return fakeValuesService.numerify("1234");
+
+    public static String generateInvalidCardNumberWithRandomSymbols() {
+        return faker.letterify("???? ???? ???? ????");
     }
-    public static String getEmptyCVC(){
-        return "";
+
+    public static String generateMonth(int shiftMonth) {
+        return LocalDate.now().plusMonths(shiftMonth).format(DateTimeFormatter.ofPattern("MM"));
     }
-    public static String getSymbolCVC(){ return "!@#";}
+
+    public static String generateMonthWithRandomSymbols() {
+        return faker.letterify("??");
+    }
+
+    public static String generateYear(int shiftYear) {
+        return LocalDate.now().plusYears(shiftYear).format(DateTimeFormatter.ofPattern("yy"));
+    }
+
+    public static String generateValidHolder() {
+        return faker.name().fullName().toUpperCase();
+    }
+
+    public static String generateInvalidHolder() {
+        return faker.name().firstName().toUpperCase() + "-" + "al" + "-"
+                + faker.name().lastName().toUpperCase();
+    }
+    public static String generateInvalidHolderWithCyrillicSymbols() {
+        return fakerWithCyrillicLocale.name().firstName().toUpperCase() + " "
+                + fakerWithCyrillicLocale.name().lastName().toUpperCase();
+    }
+    public static String generateInvalidHolderWithCyrillicSymbols45() {
+        return fakerWithCyrillicLocale.name().firstName().toUpperCase() + 45 + " "
+                + fakerWithCyrillicLocale.name().lastName().toUpperCase() + 45;
+    }
+    public static String generateInvalidHolderFirstNameRuLastEn() {
+        return fakerWithCyrillicLocale.name().firstName().toUpperCase() + faker.name().lastName().toUpperCase();
+    }
+
+    public static String generateInvalidHolderFirstNameEnLastRu() {
+        return faker.name().firstName().toUpperCase() + fakerWithCyrillicLocale.name().lastName().toUpperCase();
+    }
+    public static String generateInvalidHolderFirstNameEn() {
+        return faker.name().firstName().toUpperCase();
+    }
+    public static String generateHolderWithInvalidSymbols() {
+        return faker.numerify("#### #### #### ####");
+    }
+
+    public static String generateValidCVC() {
+        return faker.numerify("###");
+    }
+    public static String generateINValidCVCEn() {
+        return faker.numerify("qwe");
+    }
+    public static String generateINValidCVCRu() {
+        return fakerWithCyrillicLocale.numerify("йцу");
+    }
+
+    public static String generateInvalidCVCWith2Digit() {
+        return faker.numerify("##");
+    }
+
+    public static String generateInvalidCVCWithRandomSymbols() {
+        return faker.letterify("???");
+    }
+
+    public static String generateRandomOneDigit() {
+        return faker.numerify("#");
+    }
 
 }

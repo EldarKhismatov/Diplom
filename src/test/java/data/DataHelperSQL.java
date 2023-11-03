@@ -1,54 +1,90 @@
 package data;
 
-import lombok.SneakyThrows;
-import lombok.val;
+import lombok.*;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Timestamp;
+import java.util.List;
 
 public class DataHelperSQL {
-    private static String url = System.getProperty("db.url");
-    private static String user = System.getProperty("db.user");
-    private static String password = System.getProperty("db.password");
+    private static QueryRunner runner;
+    private static Connection conn;
 
     @SneakyThrows
-    public static void clearTables() { //очистить БД
-        val deletePaymentEntity = "DELETE FROM payment_entity";
-        val deleteCreditEntity = "DELETE FROM credit_request_entity";
-        val deleteOrderEntity = "DELETE FROM order_entity";
-        val runner = new QueryRunner();
-        try (val conn = DriverManager.getConnection(
-                url, user, password)
-        ) {
-            runner.update(conn, deletePaymentEntity);
-            runner.update(conn, deleteCreditEntity);
-            runner.update(conn, deleteOrderEntity);
-        }
+    public static void setup() {
+        runner = new QueryRunner();
+        conn = DriverManager.getConnection(System.getProperty("dbUrl"), "app", "pass");
     }
 
     @SneakyThrows
-    public static String getPaymentStatus() { //статус дебетовой карты
-        String status = "SELECT status FROM payment_entity";
-        return getStatus(status);
+    public static void setDown() {
+        setup();
+        var sqlUpdateOne = "DELETE FROM credit_request_entity;";
+        var sqlUpdateTwo = "DELETE FROM payment_entity;";
+        var sqlUpdateThree = "DELETE FROM order_entity;";
+        runner.update(conn, sqlUpdateOne);
+        runner.update(conn, sqlUpdateTwo);
+        runner.update(conn, sqlUpdateThree);
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PaymentEntity {
+        private String id;
+        private int amount;
+        private Timestamp created;
+        private String status;
+        private String transaction_id;
     }
 
     @SneakyThrows
-    public static String getCreditStatus() { // статус кредитной карты
-        String status = "SELECT status FROM credit_request_entity";
-        return getStatus(status);
+    public static List<PaymentEntity> getPayments() {
+        setup();
+        var sqlQuery = "SELECT * FROM payment_entity ORDER BY created DESC;";
+        ResultSetHandler<List<PaymentEntity>> resultHandler = new BeanListHandler<>(PaymentEntity.class);
+        return runner.query(conn, sqlQuery, resultHandler);
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CreditRequestEntity {
+        private String id;
+        private String bank_id;
+        private Timestamp created;
+        private String status;
     }
 
     @SneakyThrows
-    public static String getStatus(String status) {
-        String result = "";
-        val runner = new QueryRunner();
-        try (val conn = DriverManager.getConnection(
-                url, user, password)
-        ) {
-            result = runner.query(conn, status, new ScalarHandler<String>());
-            System.out.println(result);
-            return result;
-        }
+    public static List<CreditRequestEntity> getCreditsRequest() {
+        setup();
+        var sqlQuery = "SELECT * FROM credit_request_entity ORDER BY created DESC;";
+        ResultSetHandler<List<CreditRequestEntity>> resultHandler = new BeanListHandler<>(CreditRequestEntity.class);
+        return runner.query(conn, sqlQuery, resultHandler);
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class OrderEntity {
+        private String id;
+        private Timestamp created;
+        private String credit_id;
+        private String payment_id;
+    }
+
+    @SneakyThrows
+    public static List<OrderEntity> getOrders() {
+        setup();
+        var sqlQuery = "SELECT * FROM order_entity ORDER BY created DESC;";
+        ResultSetHandler<List<OrderEntity>> resultHandler = new BeanListHandler<>(OrderEntity.class);
+        return runner.query(conn, sqlQuery, resultHandler);
     }
 }
+
