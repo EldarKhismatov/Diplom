@@ -28,7 +28,7 @@ dependencies {
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
 
     testImplementation group: 'org.testng', name: 'testng', version: '7.6.1'
-    implementation group: 'com.codeborne', name: 'selenide', version: '6.17.2'
+    implementation group: 'com.codeborne', name: 'selenide', version: '6.19.1'
 
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '5.1.1'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
@@ -42,7 +42,7 @@ dependencies {
     implementation group: 'io.qameta.allure', name: 'allure-selenide', version: '2.18.1'
     testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
 }
-git 
+
 test {
     useTestNG()
     systemProperty 'selenide.headless', System.getProperty('selenide.headless')
