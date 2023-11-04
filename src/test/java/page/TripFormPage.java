@@ -5,7 +5,6 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
 
-
 import static com.codeborne.selenide.Selenide.$x;
 import static org.testng.AssertJUnit.assertEquals;
 

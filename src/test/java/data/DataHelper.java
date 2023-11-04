@@ -94,14 +94,17 @@ public class DataHelper {
         return faker.name().firstName().toUpperCase() + "-" + "al" + "-"
                 + faker.name().lastName().toUpperCase();
     }
+
     public static String generateInvalidHolderWithCyrillicSymbols() {
         return fakerWithCyrillicLocale.name().firstName().toUpperCase() + " "
                 + fakerWithCyrillicLocale.name().lastName().toUpperCase();
     }
+
     public static String generateInvalidHolderWithCyrillicSymbols45() {
         return fakerWithCyrillicLocale.name().firstName().toUpperCase() + 45 + " "
                 + fakerWithCyrillicLocale.name().lastName().toUpperCase() + 45;
     }
+
     public static String generateInvalidHolderFirstNameRuLastEn() {
         return fakerWithCyrillicLocale.name().firstName().toUpperCase() + faker.name().lastName().toUpperCase();
     }
@@ -109,9 +112,11 @@ public class DataHelper {
     public static String generateInvalidHolderFirstNameEnLastRu() {
         return faker.name().firstName().toUpperCase() + fakerWithCyrillicLocale.name().lastName().toUpperCase();
     }
+
     public static String generateInvalidHolderFirstNameEn() {
         return faker.name().firstName().toUpperCase();
     }
+
     public static String generateHolderWithInvalidSymbols() {
         return faker.numerify("#### #### #### ####");
     }
@@ -119,9 +124,11 @@ public class DataHelper {
     public static String generateValidCVC() {
         return faker.numerify("###");
     }
+
     public static String generateINValidCVCEn() {
         return faker.numerify("qwe");
     }
+
     public static String generateINValidCVCRu() {
         return fakerWithCyrillicLocale.numerify("йцу");
     }

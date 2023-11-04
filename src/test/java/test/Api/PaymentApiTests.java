@@ -1,9 +1,10 @@
 package test.Api;
 
 
-
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.google.gson.Gson;
+import data.DataHelper;
+import data.DataHelperSQL;
 import io.qameta.allure.*;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.builder.RequestSpecBuilder;
@@ -14,8 +15,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import data.DataHelper;
-import data.DataHelperSQL;
 
 import java.util.List;
 

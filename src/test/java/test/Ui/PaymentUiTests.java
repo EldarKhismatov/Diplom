@@ -136,6 +136,7 @@ public class PaymentUiTests {
         tripForm.matchesByInsertValue(cardData.getNumber(), cardData.getMonth(), cardData.getYear(), matchesHolder, cardData.getCvc());
         tripForm.assertHolderFieldIsEmptyValue();
     }
+
     @Story("Имя через дефис и фамилия на латинице")
     @Severity(SeverityLevel.CRITICAL)
     @Test
