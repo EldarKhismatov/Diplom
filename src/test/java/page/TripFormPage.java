@@ -2,11 +2,14 @@ package page;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.value;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
-import static org.testng.AssertJUnit.assertEquals;
+
 
 public class TripFormPage {
     private static final SelenideElement dailyTripCard = $x("//div[@id='root']/div/div[contains(@class, 'card')]");
@@ -56,11 +59,17 @@ public class TripFormPage {
     }
 
     public void matchesByInsertValue(String number, String month, String year, String holder, String cvc) {
-        assertEquals(number, numberInput.getValue());
-        assertEquals(month, monthInput.getValue());
-        assertEquals(year, yearInput.getValue());
-        assertEquals(holder, holderInput.getValue());
-        assertEquals(cvc, cvcInput.getValue());
+        SelenideElement numberInputElement = $(By.id("numberInput"));
+        SelenideElement monthInputElement = $(By.id("monthInput"));
+        SelenideElement yearInputElement = $(By.id("yearInput"));
+        SelenideElement holderInputElement = $(By.id("holderInput"));
+        SelenideElement cvcInputElement = $(By.id("cvcInput"));
+
+        numberInputElement.shouldHave(value(number));
+        monthInputElement.shouldHave(value(month));
+        yearInputElement.shouldHave(value(year));
+        holderInputElement.shouldHave(value(holder));
+        cvcInputElement.shouldHave(value(cvc));
     }
 
     public void assertBuyOperationIsSuccessful() {
@@ -81,53 +90,60 @@ public class TripFormPage {
         errorNotification.should(Condition.hidden);
     }
 
-    public void assertNumberFieldIsEmptyValue() {
-        numberLabel.should(Condition.cssClass("input_invalid")).shouldNot(Condition.cssClass("input_has-value"));
-        numberLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Поле обязательно для заполнения"));
+    public void assertNumberField(String errorMessage) {
+        if (errorMessage.equals("Поле обязательно для заполнения")) {
+            numberLabel.should(Condition.cssClass("input_invalid"))
+                    .shouldNot(Condition.cssClass("input_has-value"));
+        } else if (errorMessage.equals("Неверный формат")) {
+            numberLabel.should(Condition.cssClass("input_invalid"))
+                    .should(Condition.cssClass("input_has-value"));
+        }
+        numberLabel.$x(".//span[@class='input__sub']")
+                .should(Condition.visible, Condition.text(errorMessage));
+    }
+    public void assertMonthField(String errorMessage) {
+        if (errorMessage.equals("The field is required")) {
+            monthLabel.should(Condition.cssClass("input_invalid"))
+                    .shouldNot(Condition.cssClass("input_has-value"));
+        } else if (errorMessage.equals("Invalid format")) {
+            monthLabel.should(Condition.cssClass("input_invalid"))
+                    .should(Condition.cssClass("input_has-value"));
+        }
+        monthLabel.$x(".//span[@class='input__sub']")
+                .should(Condition.visible, Condition.text(errorMessage));
+    }
+    public void assertYearField(String errorMessage) {
+        if (errorMessage.equals("Поле обязательно для заполнения")) {
+            yearLabel.should(Condition.cssClass("input_invalid"))
+                    .shouldNot(Condition.cssClass("input_has-value"));
+        } else if (errorMessage.equals("Неверный формат")) {
+            yearLabel.should(Condition.cssClass("input_invalid"))
+                    .should(Condition.cssClass("input_has-value"));
+        }
+        yearLabel.$x(".//span[@class='input__sub']")
+                .should(Condition.visible, Condition.text(errorMessage));
+    }
+    public void assertHolderField(String errorMessage) {
+        if (errorMessage.equals("Поле обязательно для заполнения")) {
+            holderLabel.should(Condition.cssClass("input_invalid"))
+                    .shouldNot(Condition.cssClass("input_has-value"));
+        } else if (errorMessage.equals("Неверный формат")) {
+            holderLabel.should(Condition.cssClass("input_invalid"))
+                    .should(Condition.cssClass("input_has-value"));
+        }
+        holderLabel.$x(".//span[@class='input__sub']")
+                .should(Condition.visible, Condition.text(errorMessage));
+    }
+    public void assertCVCField(String errorMessage) {
+        if (errorMessage.equals("Поле обязательно для заполнения")) {
+            cvcLabel.should(Condition.cssClass("input_invalid"))
+                    .shouldNot(Condition.cssClass("input_has-value"));
+        } else if (errorMessage.equals("Неверный формат")) {
+            cvcLabel.should(Condition.cssClass("input_invalid"))
+                    .should(Condition.cssClass("input_has-value"));
+        }
+        cvcLabel.$x(".//span[@class='input__sub']")
+                .should(Condition.visible, Condition.text(errorMessage));
     }
 
-    public void assertNumberFieldIsInvalidValue() {
-        numberLabel.should(Condition.cssClass("input_invalid"), Condition.cssClass("input_has-value"));
-        numberLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Неверный формат"));
-    }
-
-    public void assertMonthFieldIsEmptyValue() {
-        monthLabel.should(Condition.cssClass("input_invalid")).shouldNot(Condition.cssClass("input_has-value"));
-        monthLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Поле обязательно для заполнения"));
-    }
-
-    public void assertMonthFieldIsInvalidValue() {
-        monthLabel.should(Condition.cssClass("input_invalid"), Condition.cssClass("input_has-value"));
-        monthLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Неверно указан срок действия карты"));
-    }
-
-    public void assertYearFieldIsEmptyValue() {
-        yearLabel.should(Condition.cssClass("input_invalid"));
-        yearLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Поле обязательно для заполнения"));
-    }
-
-    public void assertYearFieldIsInvalidValue() {
-        yearLabel.should(Condition.cssClass("input_invalid"), Condition.cssClass("input_has-value"));
-        yearLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Истёк срок действия карты"));
-    }
-
-    public void assertHolderFieldIsEmptyValue() {
-        holderLabel.should(Condition.cssClass("input_invalid")).shouldNot(Condition.cssClass("input_has-value"));
-        holderLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Поле обязательно для заполнения"));
-    }
-
-    public void assertHolderFieldIsInvalidValue() {
-        holderLabel.should(Condition.cssClass("input_invalid"), Condition.cssClass("input_has-value"));
-        holderLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Неверный формат"));
-    }
-
-    public void assertCvcFieldIsEmptyValue() {
-        cvcLabel.should(Condition.cssClass("input_invalid")).shouldNot(Condition.cssClass("input_has-value"));
-        cvcLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Поле обязательно для заполнения"));
-    }
-
-    public void assertCvcFieldIsInvalidValue() {
-        cvcLabel.should(Condition.cssClass("input_invalid"), Condition.cssClass("input_has-value"));
-        cvcLabel.$x(".//span[@class='input__sub']").should(Condition.visible, Condition.text("Неверный формат"));
-    }
 }
