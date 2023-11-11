@@ -59,17 +59,11 @@ public class TripFormPage {
     }
 
     public void matchesByInsertValue(String number, String month, String year, String holder, String cvc) {
-        SelenideElement numberInputElement = $(By.id("numberInput"));
-        SelenideElement monthInputElement = $(By.id("monthInput"));
-        SelenideElement yearInputElement = $(By.id("yearInput"));
-        SelenideElement holderInputElement = $(By.id("holderInput"));
-        SelenideElement cvcInputElement = $(By.id("cvcInput"));
-
-        numberInputElement.shouldHave(value(number));
-        monthInputElement.shouldHave(value(month));
-        yearInputElement.shouldHave(value(year));
-        holderInputElement.shouldHave(value(holder));
-        cvcInputElement.shouldHave(value(cvc));
+        numberInput.shouldHave(value(number));
+        monthInput.shouldHave(value(month));
+        yearInput.shouldHave(value(year));
+        holderInput.shouldHave(value(holder));
+        cvcInput.shouldHave(value(cvc));
     }
 
     public void assertBuyOperationIsSuccessful() {
@@ -84,8 +78,8 @@ public class TripFormPage {
     public void assertBuyOperationWithErrorNotification() {
         errorNotification.should(Condition.visible, Duration.ofSeconds(15));
         errorNotification.should(Condition.cssClass("notification_visible"));
-        errorNotification.$x("/div[@class='notification__title']").should(Condition.text("Ошибка"));
-        errorNotification.$x("/div[@class='notification__content']").should(Condition.text("Ошибка! Банк отказал в проведении операции."));
+        errorNotification.$x("./div[@class='notification__title']").should(Condition.text("Ошибка"));
+        errorNotification.$x("./div[@class='notification__content']").should(Condition.text("Ошибка! Банк отказал в проведении операции."));
         errorCloseButton.click();
         errorNotification.should(Condition.hidden);
     }
