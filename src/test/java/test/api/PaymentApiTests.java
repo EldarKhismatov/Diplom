@@ -27,7 +27,7 @@ import static org.testng.AssertJUnit.*;
 public class PaymentApiTests {
     private static DataHelper.CardData cardData;
     private static final Gson gson = new Gson();
-    private static final String paymentUrl = "http://localhost:8080/api/v1/pay";
+    private static final String paymentUrl = "/api/v1/pay";
     private static List<DataHelperSQL.PaymentEntity> payments;
     private static List<DataHelperSQL.CreditRequestEntity> credits;
     private static List<DataHelperSQL.OrderEntity> orders;

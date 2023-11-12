@@ -20,7 +20,7 @@ services:
       - '5432:5432'
 
   node-app:
-    build: ./artifacts/gate-simulator/
+    build: ./gate-simulator/
     image: gate-simulator:1.0
     ports:
       - '9999:9999'
