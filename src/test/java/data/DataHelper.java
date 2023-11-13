@@ -32,15 +32,6 @@ public class DataHelper {
                 generateValidHolder(), generateValidCVC());
     }
 
-    public static String getNumberWithoutSpacebarByStatus(String status) {
-        if (status.equalsIgnoreCase("APPROVED")) {
-            return "4444444444444441";
-        } else if (status.equalsIgnoreCase("DECLINED")) {
-            return "4444444444444442";
-        }
-        return null;
-    }
-
     public static String getNumberByStatus(String status) {
         if (status.equalsIgnoreCase("APPROVED")) {
             return "4444 4444 4444 4441";
@@ -50,36 +41,17 @@ public class DataHelper {
         return null;
     }
 
-    public static String generateValidCardNumberWithEnSymbol() {
-        return faker.numerify("qwer tyui asdf ghjk");
-    }
-
     public static String generateValidCardNumberWith13Digits() {
-        return faker.numerify("4444 44## #### #");
+        return faker.numerify("4444 4444 4444 4");
     }
 
-    public static String generateValidCardNumberWith18Digits() {
-        return faker.numerify("4444 44## #### #### ##");
-    }
 
     public static String generateValidCardNumberWith0Digits() {
         return faker.numerify("0000 0000 0000 0000");
     }
 
-    public static String generateInvalidCardNumberRuSymbol() {
-        return faker.numerify("йцук енгш щзхъ фыва ");
-    }
-
-    public static String generateInvalidCardNumberWithRandomSymbols() {
-        return faker.letterify("???? ???? ???? ????");
-    }
-
     public static String generateMonth(int shiftMonth) {
         return LocalDate.now().plusMonths(shiftMonth).format(DateTimeFormatter.ofPattern("MM"));
-    }
-
-    public static String generateMonthWithRandomSymbols() {
-        return faker.letterify("??");
     }
 
     public static String generateYear(int shiftYear) {
@@ -117,28 +89,13 @@ public class DataHelper {
         return faker.name().firstName().toUpperCase();
     }
 
-    public static String generateHolderWithInvalidSymbols() {
-        return faker.numerify("#### #### #### ####");
-    }
 
     public static String generateValidCVC() {
         return faker.numerify("###");
     }
 
-    public static String generateINValidCVCEn() {
-        return faker.numerify("qwe");
-    }
-
-    public static String generateINValidCVCRu() {
-        return fakerWithCyrillicLocale.numerify("йцу");
-    }
-
     public static String generateInvalidCVCWith2Digit() {
         return faker.numerify("##");
-    }
-
-    public static String generateInvalidCVCWithRandomSymbols() {
-        return faker.letterify("???");
     }
 
     public static String generateRandomOneDigit() {

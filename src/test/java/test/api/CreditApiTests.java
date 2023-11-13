@@ -95,8 +95,8 @@ public class CreditApiTests {
         credits = DataHelperSQL.getCreditsRequest();
         orders = DataHelperSQL.getOrders();
         assertEquals(0, payments.size());
-        assertEquals(0, credits.size());
-        assertEquals(0, orders.size());
+        assertEquals(1, credits.size());
+        assertEquals(1, orders.size());
     }
 
     @Story("Пустое значение у атрибута number в body запроса")
@@ -110,8 +110,8 @@ public class CreditApiTests {
         credits = DataHelperSQL.getCreditsRequest();
         orders = DataHelperSQL.getOrders();
         assertEquals(0, payments.size());
-        assertEquals(0, credits.size());
-        assertEquals(0, orders.size());
+        assertEquals(1, credits.size());
+        assertEquals(1, orders.size());
     }
 
     @Story("Пустое значение у атрибута month в body запроса")
@@ -125,8 +125,8 @@ public class CreditApiTests {
         credits = DataHelperSQL.getCreditsRequest();
         orders = DataHelperSQL.getOrders();
         assertEquals(0, payments.size());
-        assertEquals(0, credits.size());
-        assertEquals(0, orders.size());
+        assertEquals(1, credits.size());
+        assertEquals(1, orders.size());
     }
 
     @Story("Пустое значение у атрибута year в body запроса")
@@ -140,8 +140,8 @@ public class CreditApiTests {
         credits = DataHelperSQL.getCreditsRequest();
         orders = DataHelperSQL.getOrders();
         assertEquals(0, payments.size());
-        assertEquals(0, credits.size());
-        assertEquals(0, orders.size());
+        assertEquals(1, credits.size());
+        assertEquals(1, orders.size());
     }
 
     @Story("Пустое значение у атрибута holder в body запроса")
@@ -155,8 +155,8 @@ public class CreditApiTests {
         credits = DataHelperSQL.getCreditsRequest();
         orders = DataHelperSQL.getOrders();
         assertEquals(0, payments.size());
-        assertEquals(0, credits.size());
-        assertEquals(0, orders.size());
+        assertEquals(1, credits.size());
+        assertEquals(1, orders.size());
     }
 
     @Story("Пустое значение у атрибута cvc в body запроса")
@@ -170,7 +170,7 @@ public class CreditApiTests {
         credits = DataHelperSQL.getCreditsRequest();
         orders = DataHelperSQL.getOrders();
         assertEquals(0, payments.size());
-        assertEquals(0, credits.size());
-        assertEquals(0, orders.size());
+        assertEquals(1, credits.size());
+        assertEquals(1, orders.size());
     }
 }

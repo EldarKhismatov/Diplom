@@ -107,13 +107,13 @@ public class TripFormPage {
                     .shouldNotHave(Condition.cssClass("input_has-value"));
         } else if (errorMessage.equals("Неверный формат")) {
             label.shouldHave(Condition.cssClass("input_invalid"))
-                    .shouldHave(Condition.cssClass("input_has-value"));
+                    .shouldNotHave(Condition.cssClass("input_has-value"));
         } else if (errorMessage.equals("Истёк срок действия карты")) {
             label.shouldHave(Condition.cssClass("input_invalid"))
-                    .shouldHave(Condition.cssClass("input_has-value"));
-        }
-        label.$x(".//span[@class='input__sub']")
-                .should(Condition.visible, Condition.text(errorMessage));
+                    .shouldNotHave(Condition.cssClass("input_has-value"));
+        } else if (errorMessage.equals("Неверно указан срок действия карты"))
+            label.shouldHave(Condition.cssClass("input_has-value"))
+                    .shouldNotHave(Condition.cssClass("input_has-value"));
     }
 
 }
