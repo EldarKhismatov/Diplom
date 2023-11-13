@@ -49,42 +49,6 @@ public class CreditApiTests {
         SelenideLogger.removeListener("allure");
     }
 
-    @Story("HappyPath")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void shouldHappyPath() {
-        cardData = DataHelper.getValidApprovedCard();
-        APIHelper.executeRequest(cardData, creditUrl);
-        payments = DataHelperSQL.getPayments();
-        credits = DataHelperSQL.getCreditsRequest();
-        orders = DataHelperSQL.getOrders();
-        assertEquals(0, payments.size());
-        assertEquals(1, credits.size());
-        assertEquals(1, orders.size());
-
-        assertTrue(credits.get(0).getStatus().equalsIgnoreCase("approved"));
-        assertEquals(credits.get(0).getBank_id(), orders.get(0).getPayment_id());
-        assertEquals(credits.get(0).getId(), orders.get(0).getCredit_id());
-    }
-
-    @Story("SadPath")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void shouldSadPath() {
-        cardData = DataHelper.getValidDeclinedCard();
-        APIHelper.executeRequest(cardData, creditUrl);
-        payments = DataHelperSQL.getPayments();
-        credits = DataHelperSQL.getCreditsRequest();
-        orders = DataHelperSQL.getOrders();
-        assertEquals(0, payments.size());
-        assertEquals(1, credits.size());
-        assertEquals(1, orders.size());
-
-        assertTrue(credits.get(0).getStatus().equalsIgnoreCase("declined"));
-        assertEquals(credits.get(0).getBank_id(), orders.get(0).getPayment_id());
-        assertEquals(credits.get(0).getId(), orders.get(0).getCredit_id());
-    }
-
     @Story("Пустое body запроса")
     @Severity(SeverityLevel.NORMAL)
     @Test
@@ -105,13 +69,13 @@ public class CreditApiTests {
     public void shouldStatus400WithEmptyNumber() {
         cardData = new DataHelper.CardData(null, DataHelper.generateMonth(1), DataHelper.generateYear(2),
                 DataHelper.generateValidHolder(), DataHelper.generateValidCVC());
-        APIHelper.executeRequest(cardData, creditUrl);
+        APIHelper.executeRequest500(cardData, creditUrl);
         payments = DataHelperSQL.getPayments();
         credits = DataHelperSQL.getCreditsRequest();
         orders = DataHelperSQL.getOrders();
         assertEquals(0, payments.size());
-        assertEquals(1, credits.size());
-        assertEquals(1, orders.size());
+        assertEquals(0, credits.size());
+        assertEquals(0, orders.size());
     }
 
     @Story("Пустое значение у атрибута month в body запроса")

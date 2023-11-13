@@ -29,4 +29,17 @@ public class APIHelper{
                 .then()
                 .statusCode(200);
     }
+    public static void executeRequest500(Object requestBody, String endpoint) {
+        Gson gson = new Gson();
+        var body = gson.toJson(requestBody);
+
+        given()
+                .spec(spec)
+                .body(body)
+                .when()
+                .post(endpoint)
+                .then()
+                .statusCode(500);
+    }
+
 }

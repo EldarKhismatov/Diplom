@@ -61,6 +61,7 @@ public class DataHelperSQL {
         private String bank_id;
         private Timestamp created;
         private String status;
+        private String transaction_id;
     }
 
     @SneakyThrows
